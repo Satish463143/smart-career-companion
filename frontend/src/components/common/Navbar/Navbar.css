@@ -1,0 +1,113 @@
+/* === Navbar Styles === */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    transition: all 0.3s ease;
+}
+
+.navbar-transparent {
+    background-color: transparent;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+}
+
+.navbar-scrolled {
+    background-color: rgba(245, 246, 248, 0.9);
+    /* var(--color-bg-primary) with opacity */
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.navbar-container {
+    max-width: 80rem;
+    /* max-w-7xl */
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    /* px-6 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Brand */
+.navbar-brand {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.brand-highlight {
+    color: var(--color-accent-primary);
+}
+
+/* Navigation Links */
+.navbar-links {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .navbar-links {
+        display: flex;
+        gap: 2rem;
+    }
+}
+
+.nav-link {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    /* text-sm */
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: var(--color-accent-primary);
+}
+
+/* Navbar Buttons */
+.navbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-nav-login {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-accent-primary);
+    color: var(--color-accent-primary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    /* text-sm */
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-nav-login:hover {
+    background-color: var(--color-accent-soft);
+}
+
+.btn-nav-signup {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-accent-primary);
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    /* text-sm */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-nav-signup:hover {
+    background-color: var(--color-accent-hover);
+}
