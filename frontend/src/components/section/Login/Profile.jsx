@@ -6,12 +6,15 @@ import EducationForm from '../../common/Forms/EducationForm';
 import SkillsForm from '../../common/Forms/SkillsForm';
 import ProjectsForm from '../../common/Forms/ProjectsForm';
 import CertificatesForm from '../../common/Forms/CertificatesForm';
+import ProfileForm from '../../common/Forms/ProfileForm';
 import './Profile.css';
 import './Login.css';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
     // --- State ---
     const [user, setUser] = useState(null);
+    const [userProfile, setUserProfile] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const [education, setEducation] = useState([]);
@@ -52,12 +55,20 @@ export default function Profile() {
         const unsubSkills = subscribe("skills", setSkills);
         const unsubProjects = subscribe("projects", setProjects);
         const unsubCertificates = subscribe("certificates", setCertificates);
+        
+        // Listener for Main Profile Data
+        const unsubProfile = onSnapshot(doc(db, "users", user.uid), (docSnap) => {
+             if (docSnap.exists()) {
+                 setUserProfile(docSnap.data());
+             }
+        });
 
         return () => {
             unsubEducation();
             unsubSkills();
             unsubProjects();
             unsubCertificates();
+            unsubProfile();
         };
     }, [user]);
 
@@ -90,9 +101,11 @@ export default function Profile() {
     };
 
     // Helper for user display (fallback if not logged in for dev preview, though likely won't load data)
-    const displayUser = user || {
-        displayName: "Guest User",
-        email: "guest@example.com"
+    // Helper for user display (fallback if not logged in for dev preview, though likely won't load data)
+    const displayUser = {
+        displayName: userProfile?.displayName || userProfile?.name || user?.displayName || "Guest User",
+        email: userProfile?.email || user?.email || "guest@example.com",
+        photoURL: userProfile?.photoURL || user?.photoURL
     };
 
     return (
@@ -101,16 +114,33 @@ export default function Profile() {
                 
                 {/* 1. Profile Header Section */}
                 <section className="section-card profile-header-card">
-                    <div className="profile-avatar">
-                        {getInitials(displayUser.displayName)}
+                    <div className="profile-header-content">
+                        <div className="profile-avatar">
+                            {displayUser.photoURL ? (
+                                <img src={displayUser.photoURL} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ) : (
+                                getInitials(displayUser.displayName || displayUser.email)
+                            )}
+                        </div>
+                        <div className="profile-info">
+                            <h1 className="profile-name">
+                                {displayUser.displayName || displayUser.email?.split('@')[0] || "User"}
+                            </h1>
+                            <p className="profile-email">{displayUser.email}</p>
+                            <div className="profile-actions">
+                                <button 
+                                    className="btn-chat-ai"
+                                    title="Start a chat with AI"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-square-text"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg>
+                                    <Link to="/ai-feature">Chat with AI</Link>
+                                </button>
+                                <button className="btn-edit-profile" onClick={() => openModal("Profile")}>
+                                    Update Profile
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div className="profile-info">
-                        <h1 className="profile-name">{displayUser.displayName}</h1>
-                        <p className="profile-email">{displayUser.email}</p>
-                    </div>
-                    <button className="btn-edit-profile" disabled title="Feature coming soon">
-                        Edit Profile
-                    </button>
                 </section>
 
                 {/* 2. Education Section */}
@@ -236,12 +266,13 @@ export default function Profile() {
                 <Modal 
                     isOpen={isModalOpen} 
                     onClose={closeModal} 
-                    title={`Add ${activeSection}`}
+                    title={`${activeSection === "Profile" ? "Edit" : "Add"} ${activeSection}`}
                 >
                     {activeSection === "Education" && <EducationForm onClose={closeModal} />}
                     {activeSection === "Skills" && <SkillsForm onClose={closeModal} />}
                     {activeSection === "Projects" && <ProjectsForm onClose={closeModal} />}
                     {activeSection === "Certificates" && <CertificatesForm onClose={closeModal} />}
+                    {activeSection === "Profile" && <ProfileForm onClose={closeModal} initialData={userProfile} />}
                 </Modal>
             </div>
         </div>

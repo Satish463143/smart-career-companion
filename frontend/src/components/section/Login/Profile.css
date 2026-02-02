@@ -85,52 +85,102 @@
 }
 
 /* === Profile Header === */
+/* === Profile Header === */
 .profile-header-card {
+    padding: 2.5rem;
+    background: linear-gradient(135deg, var(--color-surface) 0%, #f8fafc 100%);
+    border: 1px solid var(--color-border-soft);
+}
+
+.profile-header-content {
     display: flex;
     align-items: center;
     gap: 2rem;
 }
 
 .profile-avatar {
-    width: 80px;
-    height: 80px;
-    background-color: var(--color-accent-soft);
-    color: var(--color-accent-primary);
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--color-accent-primary) 0%, var(--color-accent-hover) 100%);
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    border: 2px solid var(--color-surface);
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 10px 25px -5px rgba(var(--color-accent-primary-rgb, 79, 70, 229), 0.4);
+    border: 4px solid #fff;
 }
 
 .profile-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .profile-name {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 800;
     color: var(--color-text-primary);
     margin: 0 0 0.25rem 0;
+    letter-spacing: -0.5px;
 }
 
 .profile-email {
     font-size: 1rem;
     color: var(--color-text-secondary);
-    margin: 0;
+    margin: 0 0 1.25rem 0;
+}
+
+.profile-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-chat-ai {
+    background-color: var(--color-accent-primary);
+    color: #ffffff;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(var(--color-accent-primary-rgb, 79, 70, 229), 0.25);
+}
+
+.btn-chat-ai:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(var(--color-accent-primary-rgb, 79, 70, 229), 0.35);
+}
+
+.btn-chat-ai svg {
+    stroke-width: 2.5px;
 }
 
 .btn-edit-profile {
-    background-color: var(--color-surface-muted);
+    background-color: transparent;
     color: var(--color-text-muted);
     border: 1px solid var(--color-border);
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.25rem;
     border-radius: var(--radius-md);
-    font-size: 0.875rem;
-    cursor: not-allowed; /* Inactive for now */
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-profile:hover:enabled {
+    background-color: var(--color-surface-muted);
+    color: var(--color-text-primary);
 }
 
 /* === Lists & Items === */

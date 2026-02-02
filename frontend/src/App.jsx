@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import Signup from "./components/section/Login/Signup";
+import AiFeature from "./components/section/AIFeataureSection/AiFeature";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -26,6 +27,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="profile" element={<Profile />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="ai-feature" element={<AiFeature />} />
         </Route>
       </Routes>
     </BrowserRouter>

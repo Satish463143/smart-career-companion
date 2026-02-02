@@ -45,6 +45,7 @@ html {
 
     /* === Accent (Cool Mist Blue) === */
     --color-accent-primary: #6b84a6;
+    --color-accent-primary-rgb: 107, 132, 166;
     /* Buttons, links */
     --color-accent-hover: #5a7394;
     --color-accent-soft: #dbe3ee;
