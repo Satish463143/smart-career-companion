@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css'
 import { auth } from '../../../firebase';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
    const user = auth.currentUser;
+   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,9 +17,9 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    try{      
+    try{   
+      if(!confirm("Are you sure you want to logout?")) return;   
       auth.signOut();
-      alert("Logout successfully");
       navigate('/');
     }catch(error){
       console.log(error);

@@ -1,12 +1,12 @@
 import React from 'react'
-import Banner from '../components/section/HomeSection/Banner'
-import About from '../components/section/HomeSection/About'
-import Problem from '../components/section/HomeSection/Problem'
-import Solution from '../components/section/HomeSection/Solution'
-import Workflow from '../components/section/HomeSection/Workflow'
-import AiFeatures from '../components/section/HomeSection/AiFeatures'
-import CTA from '../components/section/HomeSection/CTA'
-import '../components/section/HomeSection/Home.css'
+import Banner from '../../components/section/HomeSection/Banner'
+import About from '../../components/section/HomeSection/About'
+import Problem from '../../components/section/HomeSection/Problem'
+import Solution from '../../components/section/HomeSection/Solution'
+import Workflow from '../../components/section/HomeSection/Workflow'
+import AiFeatures from '../../components/section/HomeSection/AiFeatures'
+import CTA from '../../components/section/HomeSection/CTA'
+import '../../components/section/HomeSection/Home.css'
 
 const HomePage = () => {
   return (

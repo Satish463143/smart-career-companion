@@ -45,6 +45,8 @@ const Signup = () => {
     await setDoc(doc(db, "users", user.uid), {
       name,
       email,
+      role:"user",
+      status:"active",
       createdAt: new Date(),
     });
 

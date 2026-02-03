@@ -9,13 +9,14 @@ import CertificatesForm from '../../common/Forms/CertificatesForm';
 import ProfileForm from '../../common/Forms/ProfileForm';
 import './Profile.css';
 import './Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Profile() {
     // --- State ---
     const [user, setUser] = useState(null);
     const [userProfile, setUserProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const [education, setEducation] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -37,7 +38,14 @@ export default function Profile() {
 
     // --- Real-time Listeners ---
     useEffect(() => {
-        if (!user) return; // Wait for user
+        if (loading) return; // Wait for auth check to complete
+        
+        if (!user) {
+            // Only redirect if we know for sure there is no user and loading is done
+            alert("Please login to view your profile");
+            navigate('/login');
+            return;
+        }
 
         // Generic listener function
         const subscribe = (collectionName, setter) => {

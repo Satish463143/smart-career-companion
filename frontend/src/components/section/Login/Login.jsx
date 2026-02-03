@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../../firebase";
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -11,10 +12,18 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const user = auth.currentUser;
-  if(user){
-    navigate('/profile');
-  }
+  // Remove the immediate redirect check here to allow proper handling in handleLogin
+  // or keep it but ensure handleLogin logic runs first? 
+  // Actually, keeping this might redirect before we check status if state updates fast. 
+  // Safe to remove for now or handle inside useEffect to check claims/status if we were doing advanced roles.
+  // user object from auth doesn't have firestore data. 
+  // existing code:
+  // const user = auth.currentUser;
+  // if(user){
+  //   navigate('/profile');
+  // } 
+  // Retaining it might likely be fine if status check happens before auth state listener fires globally
+  // but better to rely on handleLogin for the flow control.
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,11 +31,35 @@ export default function Login() {
     setLoading(true);
     
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Check User Status in Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        if (userData.status === 'inactive') {
+          await signOut(auth);
+          setError("Your account has been deactivated. Please contact admin.");
+          setLoading(false);
+          return;
+        }
+      }
+
       alert("Login successfully");
       navigate('/profile'); // Redirect to home on success
     } catch (err) {
-      setError(err.message.replace('Firebase: ', ''));
+        console.error("Login error:", err);
+      // Clean up error message
+      let msg = err.message;
+      if (msg.includes('auth/user-not-found') || msg.includes('auth/wrong-password')) {
+        msg = "Invalid email or password";
+      } else {
+         msg = msg.replace('Firebase: ', '');
+      }
+      setError(msg);
     } finally {
       setLoading(false);
     }
