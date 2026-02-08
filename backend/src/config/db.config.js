@@ -1,9 +1,18 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../../smart-carrer-firebase-adminsdk-fbsvc-526cbb0ba7.json");
+require("dotenv").config();
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+if (!admin.apps.length) {
+  const serviceAccount = JSON.parse(
+    Buffer.from(
+      process.env.FIREBASE_SERVICE_ACCOUNT_BASE64,
+      "base64"
+    ).toString("utf8")
+  );
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 const db = admin.firestore();
 
 module.exports = db;
