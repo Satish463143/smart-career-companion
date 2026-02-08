@@ -12,7 +12,7 @@ const corsOptions = {
         if (!origin) {
             return callback(null, true);
         }
-        const allowedOrigins = ["http://localhost:5173", ];
+        const allowedOrigins = ["http://localhost:5173", "https://smart-career-companion-sibv.vercel.app/" ];
         
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
