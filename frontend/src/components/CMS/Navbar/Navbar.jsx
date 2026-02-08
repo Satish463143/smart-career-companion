@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
-import { MdQuiz } from 'react-icons/md';
-import { GiNotebook } from 'react-icons/gi';
 import { BsFileEarmarkText } from 'react-icons/bs';
 
-import './Navbar.css'; // Import the custom styles
+import './Navbar.css'; 
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');

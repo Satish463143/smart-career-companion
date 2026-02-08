@@ -1,7 +1,7 @@
-import Navbar from '../../Components/CMS/Navbar/Navbar'
+import Navbar from '../../components/CMS/Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 import './CMSLayout.css'
-import TopNav from '../../Components/CMS/TopNav/TopNav'
+import TopNav from '../../components/CMS/TopNav/TopNav'
 
 const CMSLayout = () => {
 
