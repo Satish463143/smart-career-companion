@@ -77,12 +77,16 @@ class AiController {
             - Certificates: ${JSON.stringify(certificates)}
 
             Please provide:
-            1. **Top 3 Career Paths**: Suitable roles based on their skills and experience.
-            2. **Skill Gaps**: What they are missing for senior roles in these paths.
-            3. **Recommended Next Steps**: Projects to build or certifications to get.
+            1. Top 3 Career Paths: Prioritize roles that match their current skills.
+            2. Skill Gaps: Brief list of missing skills for senior roles.
+            3. Recommended Next Steps: Actionable advice.
             
-            Keep the tone professional yet encouraging.
-            
+            IMPORTANT FORMATTING RULES:
+            - Keep it CONCISE and MINIMAL (max 150 words).
+            - DO NOT use Markdown symbols like *, #, -, or **.
+            - Use Numbered Lists (1., 2., 3.) for main points.
+            - Use UPPERCASE for section headers (e.g., "CAREER PATHS:").
+            - Use "strong font" for section headers, titles, and important words.
             `;
 
             const aiResponse = await generateAiResponse(userId, prompt);
@@ -131,6 +135,9 @@ class AiController {
                 userRef.collection("projects").get(),
                 userRef.collection("certificates").get()
             ]);
+
+            console.log(`[ResumeGenerator] Fetching data for User: ${userId}`);
+            console.log(`[ResumeGenerator] Found: Education(${educationSnap.size}), Skills(${skillsSnap.size}), Projects(${projectsSnap.size}), Certificates(${certificatesSnap.size})`);
 
             const userFirestoreData = userDocSnap.exists ? userDocSnap.data() : {};
 

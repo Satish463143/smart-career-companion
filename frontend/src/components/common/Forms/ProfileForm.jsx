@@ -17,9 +17,9 @@ export default function ProfileForm({ onClose, initialData }) {
         if (!selected) return;
 
         // Validation
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const allowedTypes = ['image/jpeg', 'image/png'];
         if (!allowedTypes.includes(selected.type)) {
-            setError("Invalid file type. Please upload JPG, PNG, or WEBP.");
+            setError("Invalid file type. Please upload JPG, PNG.");
             setFile(null);
             return;
         }
@@ -136,11 +136,11 @@ export default function ProfileForm({ onClose, initialData }) {
                 <input 
                     type="file" 
                     className="form-input"
-                    accept=".jpg,.png,.webp"
+                    accept=".jpg,.png"
                     onChange={handleFileChange}
                 />
                 <small className="text-muted" style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
-                    Supported: JPG, PNG, WEBP
+                    Supported: JPG, PNG
                 </small>
             </div>
 

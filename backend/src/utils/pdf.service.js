@@ -61,11 +61,21 @@ const generateResumePDF = (data) => {
                     const arrayBuffer = await response.arrayBuffer();
                     const imgBuffer = Buffer.from(arrayBuffer);
                     
-                    doc.save();
-                    doc.circle(550, 70, 40).clip();
-                    // Center 550, 70; Radius 40 -> TopLeft 510, 30; Diameter 80
-                    doc.image(imgBuffer, 510, 30, { width: 80, height: 80 }); 
-                    doc.restore();
+                    try {
+                        doc.save();
+                        doc.circle(550, 70, 40).clip();
+                        // Center 550, 70; Radius 40 -> TopLeft 510, 30; Diameter 80
+                        doc.image(imgBuffer, 510, 30, { width: 80, height: 80 }); 
+                        doc.restore();
+                    } catch (imageError) {
+                        console.warn("PDF Generation: Failed to embed image (likely unsupported format like WebP/SVG). Falling back to placeholder.", imageError.message);
+                        doc.restore(); // Ensure state is restored
+                        
+                        // Fallback: Circle with Initial
+                        doc.circle(550, 70, 40).fill('white');
+                        doc.fillColor(primaryColor).fontSize(30).font('Helvetica-Bold')
+                           .text(data.fullName ? data.fullName.charAt(0).toUpperCase() : "U", 538, 55);
+                    }
                 } else {
                     // Fallback if fetch fails
                      doc.circle(550, 70, 40).fillOpacity(0.2).fill('white').fillOpacity(1);
